@@ -17,9 +17,9 @@ for street in network:
     data = json.loads(r.text)
     f = open(filename+".jsoned","a", encoding="utf8")
     for value in data:
-        print(value["svg"])
+        #print(value["svg"])
         data2=value["address"]
-        print(data2["road"])
+        #print(data2["road"])
         f.write(data2["road"])
         f.write("\n")
         f.write(value["svg"])
