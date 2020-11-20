@@ -19,12 +19,12 @@ for street in network:
     data = json.loads(r.text)
     f = open(filename +".json","a", encoding="utf8")
     for value in data:
-        #print(value["svg"])
         data2=value["address"]
-        #print(data2["road"])
         f.write(data2["road"])
         f.write("\n")
-        f.write(value["svg"])
+        #f.write(value["svg"]) //cala wartosc ml
+        splitted = value["svg"].split("L ",1)
+        f.write(splitted[1])
         f.write("\n")
     f.close()
 
