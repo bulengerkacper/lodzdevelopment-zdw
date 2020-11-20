@@ -6,12 +6,35 @@
             "inside_100": "10000",
             "inside_200": "15000",
             "inside_200+": "22000,2",
-            "forge": "12000"
+            "boiler": "12000"
         },
         "exploatation" : {
             "fixed_100": "3000",
             "fixed_200": "3500",
             "fixed_200+": "5000"
+        }
+    },
+    "urban_network": {
+        "installation": {
+            "total": "15000"
+        },
+        "exploatation" : {
+            "fixed_100": "4000",
+            "fixed_200": "5000",
+            "fixed_200+": "10000"
+        }
+    },
+    "electricity": {
+        "installation": {
+            "inside_100": "10000",
+            "inside_200": "12000",
+            "inside_200+": "15500",
+            "boiler": "6000"
+        },
+        "exploatation" : {
+            "fixed_100": "5500",
+            "fixed_200": "8000",
+            "fixed_200+": "12000"
         }
     }
 }
