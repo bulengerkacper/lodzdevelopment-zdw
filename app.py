@@ -9,9 +9,8 @@ def main():
     return render_template("index.html")
 
 @application.route('/test')  
-def home():  
-    calc.test()
-    return "hello, welcome to our website";  
+def home():
+    return calc.test()
 
 if __name__ == "__main__":
     application.config['TEMPLATES_AUTO_RELOAD'] = True
