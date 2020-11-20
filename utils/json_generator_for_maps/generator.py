@@ -1,8 +1,9 @@
 import requests
 import json
 import time
-
-with open('siec_gazowa.txt', encoding="utf8") as f:
+print ("Podaj nazwe pliku z ulicami")
+filename=input()
+with open(filename, encoding="utf8") as f:
     lines = f.readlines()
 
 network=[]
@@ -14,12 +15,11 @@ for street in network:
     preparedlink = preparedlink.replace('\n','')
     r = requests.get(preparedlink)
     data = json.loads(r.text)
-    f = open("siec.txt","w", encoding="utf8")
-    f.write("Now the file has more content!")
+    f = open(filename+".jsoned","a", encoding="utf8")
     for value in data:
-        #print(value["svg"])
+        print(value["svg"])
         data2=value["address"]
-        #print(data2["road"])
+        print(data2["road"])
         f.write(data2["road"])
         f.write("\n")
         f.write(value["svg"])
