@@ -1,0 +1,17 @@
+{
+    "gas": {
+        "installation": {
+            "outside": "7000",
+            "materials": "160",
+            "inside_100": "10000",
+            "inside_200": "15000",
+            "inside_200+": "22000,2",
+            "forge": "12000"
+        },
+        "exploatation" : {
+            "fixed_100": "3000",
+            "fixed_200": "3500",
+            "fixed_200+": "5000"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "location": {
+        "adress": "testowa 12",
+        "area": "120"
+    },
+    "available_networks": ["gas", "heat"],
+    "period": "11"
+}
