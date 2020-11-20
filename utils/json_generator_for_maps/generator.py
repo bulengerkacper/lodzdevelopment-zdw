@@ -14,10 +14,16 @@ for street in network:
     preparedlink = preparedlink.replace('\n','')
     r = requests.get(preparedlink)
     data = json.loads(r.text)
-    for x in data:
-        #print(x["svg"])
-        print (x["address"])
-        # data2=json.loads(x["address"].dump())
-        # for z in data2:
-        #     print(z["roads"])
-        
+    f = open("siec.txt","w", encoding="utf8")
+    f.write("Now the file has more content!")
+    for value in data:
+        #print(value["svg"])
+        data2=value["address"]
+        #print(data2["road"])
+        f.write(data2["road"])
+        f.write("\n")
+        f.write(value["svg"])
+        f.write("\n")
+    f.close()
+
+
