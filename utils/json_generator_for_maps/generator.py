@@ -22,10 +22,13 @@ for street in network:
     previous_entrance=""
     json_data = json.loads(r.text)
     if r.text == "[]":
-        print ("jestem")
         continue
     for value in json_data:
         address_data=value["address"]
+        if 'town' in address_data.keys() and address_data["town"] == "Szadek":
+            print(address_data["town"])
+            break
+        #print(address_data["town"])
         if previous_entrance != address_data["road"]:
             json_bufer.write("{'road':'" + address_data["road"] + "','points':[")
             #print(address_data["road"])
