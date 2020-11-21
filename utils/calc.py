@@ -5,7 +5,8 @@ def do_calc(data):
 
     with open('data/config_data.json') as new:
         config = json.load(new)
-
+    print(data)
+    print("-----------")
     # prepare data for calculation
     period = float(data["period"].replace(",", "."))
     building_type = data["location"]["type"]

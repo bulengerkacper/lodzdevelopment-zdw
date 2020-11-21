@@ -19,7 +19,7 @@ def test():
 @application.route('/calc', methods = ['POST'])
 def calculate():
     if request.method == 'POST':
-        data = request.form
+        data = request.get_json()
         return calc.do_calc(data)
 
 
