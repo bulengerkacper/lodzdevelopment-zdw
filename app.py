@@ -22,6 +22,15 @@ def calculate():
         data = request.get_json()
         return calc.do_calc(data)
 
+@application.route('/gas_network')
+def gas_network():
+    file = open("utils/json_generator_for_maps/siec_gazowa.txt.jsons")  
+    return file.read()
+
+@application.route('/heat_network')
+def heat_network():
+    file = open("utils/json_generator_for_maps/siec_cieplownicza.txt.jsons")  
+    return file.read()
 
     
 
