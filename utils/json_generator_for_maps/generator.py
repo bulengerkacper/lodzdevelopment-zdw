@@ -23,11 +23,13 @@ for street in network:
         f.write("\n")
         #f.write(value["svg"]) //cala wartosc ml
         splitted = value["svg"].split("L ",1)
-        f.write(splitted[1])
+        #f.write(splitted[1]) #tu printuje cala zawartosc bez l
         splitSecondSpace=splitted[1].split(" ")
         result = [splitSecondSpace[index] + ' ' + splitSecondSpace[index+1] for index in range(len(splitSecondSpace)-1)]
-        print (result)
-        
+        for pair in result:
+            print (pair) #tu printuje pary
+            f.write(pair)
+            f.write("\n")
         f.write("\n")
     f.close()
 
