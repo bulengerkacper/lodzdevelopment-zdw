@@ -6,51 +6,47 @@ def test():
     with open('data/input.json') as src:
         data = json.load(src)
 
-    with open('data/costs.json') as costs:
-        cost = json.load(costs)
+    with open('data/config_data.json') as new:
+        config = json.load(new)
 
     period = float(data["period"].replace(",", "."))
-
-    if (float(data["location"]["area"]) < 100):
-        print("TODO: Dom ponizej 100m")
+    input_type = data["location"]["type"]
+    heat = float(config["building_type"][input_type].replace(",", ".")) * float(data["location"]["area"].replace(",", "."))
+    water = 365 * float(config["water_consumption"].replace(",", ".")) * float(data["location"]["users"].replace(",", "."))
     
-    elif (float(data["location"]["area"]) > 100 and float(data["location"]["area"]) < 200):
-        house_size = 2
-        print("Dom pomiedzy 100 a 200m")
- 
-    else:
-        print("TODO: Dom pomiedzy 100 a 200m")
-        
-    res_gas = calc(house_size, cost, "gas", period)
-    res_network = calc(house_size, cost, "urban_network", period)
-    res_electricity = calc(house_size, cost, "electricity", period)
-
-    res["gas"] = res_gas
-    res["urban_network"] = res_network
-    res["electricity"] = res_electricity
+    res["gas"]         = calc(heat, "gas", period, config, water)
+    res["electricity"] = calc(heat, "electricity", period, config, water)
 
     return pack_data(res, period)
+    # return "test"
 
-
-
-def calc(size, costs, medium, period):
-    result = []
+def calc(heat, medium, period, config, water):
+    result               = []
     
+    # TODO: sprawnosc kotla ???!!!
+    
+    # heating
+    heating                 = heat / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
+    heating_cost            = heating * float(config["heating_type"][medium]["price"].replace(",", "."))
     result_installation = 0
-    if (size == 1):
-        print("TODO")
-    elif (size == 2):
-        for x in costs[medium]["installation"]:
-            result_installation += float(costs[medium]["installation"][x].replace(",", ".")) #TODO: refactor
-    else: 
-        print("TODO")
+    result_exploatation = 0
+    
+    # water heating
+    water_heat = water * 40.6 / 1000 / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
+    water_cost = water_heat * float(config["heating_type"][medium]["price"].replace(",", "."))
 
-    results_exploatation = float(costs[medium]["exploatation"]["fixed_200"].replace(",", ".")) * period
+    result_exploatation = (heating_cost + water_cost) * period
+
+    # installation cost
+    for x in config["heating_type"][medium]["installation"]:
+            result_installation += float(config["heating_type"][medium]["installation"][x].replace(",", ".")) #TODO: refactor
+    
 
     result.append(result_installation)
-    result.append(results_exploatation)
+    result.append(result_exploatation)
 
     return(result)
+
 
 def pack_data(results, period):
     data = {}

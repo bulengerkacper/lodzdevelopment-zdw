@@ -1,7 +1,9 @@
 {
     "location": {
         "adress": "testowa 12",
-        "area": "120"
+        "area": "120",
+        "type": "2",
+        "users": "3"
     },
     "available_networks": ["gas", "heat"],
     "period": "11"
