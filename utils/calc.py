@@ -27,24 +27,32 @@ def test():
 
     # calculate costs here
     for medium in data["mediums"]:
-        res[medium] = calc(heat, water, medium, period, config, size) 
-
+        calcs = {}
+        for period in range(0,22,2):
+            result = calc(heat, water, medium, period, config, size) 
+            if result != -1:
+                calcs[period] = result
+        
+        res[medium] = calcs
     return pack_data_to_json(res, period)
 
 def calc(heat, water, medium, period, config, size):
-    result               = []
     
-    # TODO: sprawnosc kotla ???!!!
-    
-    # heating
-    heating                 = heat / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
-    heating_cost            = heating * float(config["heating_type"][medium]["price"].replace(",", "."))
+    result = []
     result_installation = 0
     result_exploatation = 0
-    
-    # water heating
-    water_heat = water * 40.6 / 1000 / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
-    water_cost = water_heat * float(config["heating_type"][medium]["price"].replace(",", "."))
+    # TODO: sprawnosc kotla ???!!!
+    try:
+        # heating
+        heating                 = heat / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
+        heating_cost            = heating * float(config["heating_type"][medium]["price"].replace(",", "."))
+
+        # water heating
+        water_heat = water * 40.6 / 1000 / float(config["heating_type"][medium]["heating_value"].replace(",", "."))
+        water_cost = water_heat * float(config["heating_type"][medium]["price"].replace(",", "."))
+    except Exception as e:
+        print("ERROR: Error during calculation. errmsg: " + str(e))
+        return -1
 
     result_exploatation = (heating_cost + water_cost) * period
 
@@ -73,13 +81,17 @@ def calc(heat, water, medium, period, config, size):
 
 def pack_data_to_json(results, period):
     data = {}
-    for x in results:
-        data[x] = {
-            "installation": results[x][0],
-            "exploatation": results[x][1],
-            "total": results[x][0] + results[x][1],
-            "period": period
-        }
-
-    y = json.dumps(data)
-    return(y)
+    tempdict = {}
+    
+    for medium in results:
+        lista = []
+        for period in results[medium]:
+            tempdict[period] = { 
+                    "installation": results[medium][period][0],
+                    "exploatation": results[medium][period][1],
+                    "total": results[medium][period][0] + results[medium][period][1]
+                }
+        lista.append(tempdict)
+        data[medium] = lista
+    z = json.dumps(data)
+    return z
