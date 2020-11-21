@@ -122,11 +122,13 @@ function handleBuildingSizeCardClick(radio) {
 
 function handleEnergySavingLevelRangeChange(range) {
   $(range).next().text(rangeValues.energySavingLevel[$(range).val()]);
+  data.buildingEnergySavingLevel = $("#energySavingLevelRange").val().toString();
   checkStepTwoButtonStatus();
 }
 
 function handlePeopleRangeChange(range) {
   $(range).next().text($(range).val());
+  data.buildingResidents = $("#peopleRange").val().toString();
   checkStepTwoButtonStatus();
 }
 
@@ -157,12 +159,57 @@ function isNumeric(str) {
   return typeof str == "string" ? (!isNaN(str) && !isNaN(parseFloat(str))) : false;
 }
 
+
 function nextStep() {
   $('#step-' + meta.step + '-label').removeClass('text-secondary');
   meta.step = meta.step + 1;
   $('#step-' + meta.step + '-label').addClass('text-secondary');
 
+  if (meta.step == 3) {
+    getResults();
+  }
+
   docSlider.nextPage();
+}
+
+function getResults () {
+  $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: '/calc',
+    dataType: 'json',
+    data: JSON.stringify(getFormalisedData()),
+    success: function(result) { console.log(result) },
+    error: function(error) { console.error(error) }
+  });
+    
+    
+  //   '/calc', getFormalisedData()).done(function(data) {
+  //   console.warn(data);
+  // });
+}
+
+function getFormalisedData() {
+  let result = {
+    "location": {
+        "adress": data.street,
+        "area": data.buildingSize,
+        "type": data.buildingEnergySavingLevel,
+        "users": data.buildingResidents
+    },
+    "mediums": ["network_heat", "gas_tank", "biomass"],
+    "period": "1"
+  };
+
+  if (data.isGasAvailable) {
+    result.mediums.push("gas");
+  }
+  
+  if (data.isHeatAvailable) {
+    result.mediums.push("network_heat");
+  }
+
+  return result;
 }
 
 var data = {
@@ -170,8 +217,8 @@ var data = {
   isGasAvailable: false,
   isHeatAvailable: false,
   buildingSize: null,
-  buildingEnergySavingLevel: null,
-  buildingResidents: null
+  buildingEnergySavingLevel: '1',
+  buildingResidents: '4'
 }
 
 var meta = {
