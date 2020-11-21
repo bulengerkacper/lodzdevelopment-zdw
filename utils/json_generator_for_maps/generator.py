@@ -28,7 +28,7 @@ for street in network:
         if 'town' in address_data.keys() and address_data["town"] != "Zduńska Wola" or \
             'municipality' in address_data.keys() and address_data["municipality"] == "gmina Szadek" or \
             "Szadek" in value["display_name"] or \
-            'village' in address_data.keys() and address_data["village"] =="Karsznice" :
+            'town' in address_data.keys() and address_data["town"] == "Szadek" :
             break
         #print(address_data["town"])
         if previous_entrance != address_data["road"]:
