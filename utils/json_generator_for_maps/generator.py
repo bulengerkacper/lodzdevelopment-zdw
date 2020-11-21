@@ -15,13 +15,14 @@ json_bufer = open(filename +".jsons","a", encoding="utf8")
 #print("[")
 json_bufer.write("[")
 for street in network:
-    #print (street)
+    print (street)
     preparedlink = "https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&limit=10&polygon_svg=1&street="+street+"&city=Zdu%C5%84ska%20Wola"
     preparedlink = preparedlink.replace('\n','')
     r = requests.get(preparedlink)
     previous_entrance=""
     json_data = json.loads(r.text)
     if r.text == "[]":
+        print ("jestem")
         continue
     for value in json_data:
         address_data=value["address"]
@@ -29,7 +30,6 @@ for street in network:
             json_bufer.write("{'road':'" + address_data["road"] + "','points':[")
             #print(address_data["road"])
         splitted = value["svg"].split("L ")
-        #print(address_data["road"])
         if len(splitted) > 1:
             splitSecondSpace=splitted[1].split(" ")
             result = [splitSecondSpace[index] + ' ' + splitSecondSpace[index+1] for index in range(len(splitSecondSpace)-1)]
@@ -41,11 +41,10 @@ for street in network:
                 if i%2==1:
                     #print ("'" + pair + "',") #tu printuje pary
                     json_bufer.write("'" + pair + "',")   
-        
         previous_entrance=address_data["road"]
-    #print("]")
+    print("]")
     json_bufer.write("]")
-    #print("},")
+    print("},")
     json_bufer.write("},")
         
 #print("]")
