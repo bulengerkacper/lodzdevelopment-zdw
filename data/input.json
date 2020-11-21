@@ -5,6 +5,6 @@
         "type": "2",
         "users": "3"
     },
-    "available_networks": ["gas", "heat"],
-    "period": "11"
+    "mediums": ["gas", "electricity", "network_heat", "gas_tank", "biomass"],
+    "period": "1"
 }
