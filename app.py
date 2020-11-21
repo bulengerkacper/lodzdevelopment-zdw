@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect
 from flask import request
+import json
 from utils import calc
 
 application = Flask(__name__)
@@ -9,8 +10,20 @@ def main():
     return render_template("index.html")
 
 @application.route('/test')  
-def home():
-    return calc.test()
+def test():
+    with open('data/input.json') as src:
+        data = json.load(src)
+    return calc.do_calc(data)
+
+
+@application.route('/calc', methods = ['POST'])
+def calculate():
+    if request.method == 'POST':
+        data = request.form
+        return calc.do_calc(data)
+
+
+    
 
 @application.route('/form', methods=['GET', 'POST'])  
 def form_collector():

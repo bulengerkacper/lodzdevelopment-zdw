@@ -1,10 +1,7 @@
 import json
 
-def test():
+def do_calc(data):
     res = {}
-    
-    with open('data/input.json') as src:
-        data = json.load(src)
 
     with open('data/config_data.json') as new:
         config = json.load(new)
@@ -25,9 +22,19 @@ def test():
     heat = float(config["building_type"][building_type].replace(",", ".")) * area
     water = 365 * float(config["water_consumption"].replace(",", ".")) * float(data["location"]["users"].replace(",", "."))
 
+    
+
+    # calculate referral value
+    heat_ref = (heat * 100) / 60
+    water_ref = (water * 100) / 60
+
+    test = calc(heat, water, "gas", 1, config, size)   
+    ref = calc(heat_ref, water_ref, "coal", 1, config, size)   
+
     # calculate costs here
     for medium in data["mediums"]:
         calcs = {}
+        
         for period in range(0,22,2):
             result = calc(heat, water, medium, period, config, size) 
             if result != -1:
@@ -70,7 +77,7 @@ def calc(heat, water, medium, period, config, size):
             result_installation += float(config["heating_type"][medium]["installation"][x].replace(",", ".")) #TODO: refactor
     
     except Exception as e:
-        print("ERROR: Wrong config for medium: " + str(medium) + "  field: " + str(x) + "  errmsg: " + str(e))
+        print("ERROR: Wrong config for medium: " + str(medium) + "  errmsg: " + str(e))
         result_installation = 0
     
     result.append(result_installation)
@@ -82,7 +89,6 @@ def calc(heat, water, medium, period, config, size):
 def pack_data_to_json(results, period):
     data = {}
     tempdict = {}
-    print(results)
     for medium in results:
         lista = []
         tempdict = {}

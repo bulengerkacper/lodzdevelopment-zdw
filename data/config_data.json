@@ -55,7 +55,10 @@
             },
             "price":"0.9",
             "heating_value": "4.3"
-
+        },
+        "coal": {
+            "price" : "0.9",
+            "heating_value" : "6.2"
         }
     }
 }

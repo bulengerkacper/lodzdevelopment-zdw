@@ -2,6 +2,7 @@ body,
 html {
   font-family: "Comfortaa";
   font-weight: 300;
+  font-size: 1rem;
 }
 
 body::before {
@@ -148,4 +149,13 @@ input::-webkit-slider-thumb {
 .btn-secondary:disabled {
   background: #aaa !important;
   border-color: #aaa !important;
+}
+.step-label {
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+}
+
+.form-part {
+	margin-top: 5vh;
+	margin-bottom: 5vh;
 }
