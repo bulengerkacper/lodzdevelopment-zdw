@@ -1,1 +1,150 @@
-MAIN PAGE
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSG Test</title>
+  <script src="../static/js/scripts.js"></script>
+  <script src="../static/js/leaflet.js"></script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/leaflet.css"/>
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="../static/css/docSlider.css">
+  <link rel="stylesheet" href="../static/css/styles.css"/>
+</head>
+<body>
+  <!-- fixed content here -->
+  <div id="ssg-container">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="bg-primary">
+            <div class="sidebar-header">
+                <h3>Bootstrap Sidebar</h3>
+            </div>
+    
+            <ul class="list-unstyled components">
+                <p>Dummy Heading</p>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+    
+        </nav>
+        <!-- Page Content -->
+        <div id="content">
+    
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+    
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="docSlider">
+        <section>
+            <div class="inner">
+                <div id="mapid"></div>
+                <div class="input-group mb-3 bg-primary" id="chooseBtn">
+                    <input type="text" class="form-control" placeholder="Recipient's username" id="chooseStreetInput" oninput="chooseStreetBtnDisableHandler()">
+                    <div class="input-group-append">
+                      <button class="btn btn-secondary disabled" type="button" id="chooseStreetBtn" disabled onclick="nextPage()">Wybierz</button>
+                    </div>
+                  </div>
+            </div>
+        </section>
+        <section>
+            <div class="inner">
+                <form>
+                <div class="row">                <div class="col-4">
+                    <input type="radio" name="buildingRadio" value="1" class="card">
+                    <img src="../static/images/building.png"/>
+                <span>small bulding</span>
+                </input></div>
+                <div class="col-4"><input type="radio" name="buildingRadio" value="1" class="card">
+                    <img src="../static/images/building.png"/>
+                <span>small bulding</span>
+                </input></div>
+                <div class="col-4"><input type="radio" name="buildingRadio" value="1" class="card">
+                    <img src="../static/images/building.png"/>
+                <span>small bulding</span>
+                </input></div></div>
+
+                    <div class="form-group">
+                      <label for="formControlRange">Example Range input</label>
+                      <input type="range" class="form-control-range" id="formControlRange" min="1" max="5" >
+                    </div>
+                  </form>
+            </div>
+        </section>
+        <section>
+            <div class="inner">Page3</div>
+        </section>
+        <section>
+            <div class="inner">Page4</div>
+        </section>
+    </div>
+    
+    <script src="../static/js/docSlider.min.js"></script>
+    <script>docSlider.init({horizontal: true, pager: false});docSlider.enable(false);//docSlider.nextPage();,
+    
+    
+
+	var mymap = L.map('mapid').setView([51.593790, 18.949978], 13);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
+
+    </script>
+    </body>
+    </html>
+
+</html>
