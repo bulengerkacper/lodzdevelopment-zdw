@@ -81,18 +81,6 @@ body::before {
   border-color: #f77f00 !important;
 }
 
-.card {
-  height: 20vh;
-}
-
-.card.selected {
-  background: #f77f00 !important;
-  color: #fff !important;
-}
-.card.selected img {
-  filter: invert(1);
-}
-
 .card input {
   display: none;
 }
@@ -147,6 +135,14 @@ input::-webkit-slider-thumb {
   border-color: #f77f00 !important;
 }
 .btn-secondary:disabled {
+  background: #aaa !important;
+  border-color: #aaa !important;
+}
+.btn-primary {
+  background: #333 !important;
+  border-color: #333 !important;
+}
+.btn-primary:disabled {
   background: #aaa !important;
   border-color: #aaa !important;
 }
