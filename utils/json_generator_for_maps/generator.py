@@ -32,8 +32,9 @@ for street in network:
             if i%2==1:
                 print ("'" + pair + "',") #tu printuje pary
                 json_bufer.write("'" + pair + "',")   
-        print("]")
-        json_bufer.write("]")
+        print("],'lparam':'" +(splitted[0][2::][:-1]) + "'")
+        json_bufer.write("],'lparam':'" +(splitted[0][2::][:-1]) + "'")
+        # json_bufer.write("]")
         print("},")
         json_bufer.write("},\n")
 print("]")
