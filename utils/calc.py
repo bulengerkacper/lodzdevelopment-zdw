@@ -82,9 +82,10 @@ def calc(heat, water, medium, period, config, size):
 def pack_data_to_json(results, period):
     data = {}
     tempdict = {}
-    
+    print(results)
     for medium in results:
         lista = []
+        tempdict = {}
         for period in results[medium]:
             tempdict[period] = { 
                     "installation": results[medium][period][0],
