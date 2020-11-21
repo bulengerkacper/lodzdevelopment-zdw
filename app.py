@@ -15,7 +15,6 @@ def test():
         data = json.load(src)
     return calc.do_calc(data)
 
-
 @application.route('/calc', methods = ['POST'])
 def calculate():
     if request.method == 'POST':
