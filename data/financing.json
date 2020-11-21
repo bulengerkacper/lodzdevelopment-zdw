@@ -1,0 +1,14 @@
+{
+    "Stop Smog" : {
+        "name": "Stop Smog",
+        "application_url": "https://zdunskawola.pl/images/lipiec_2019/stop_smog/popr/Wniosek_o_udzielenie_dofinansowania.pdf",
+        "info_url": "https://zdunskawola.pl/pl/straz-miejska/8-aktualnosci/1314-stop-smog",
+        "description": "Maksymalna dotacja to 5.000 zł. Nie może ona stanowić więcej niż 50% kosztów inwestycji. Przykład: Jeśli kocioł gazowy kosztuje 11.000 zł, to 5.000 zł wydajesz z dotacji, a 6.000 dopłacasz sam. Dotacja stanowi ok. 45% wartości inwestycji, a więc zgodnie z wymogiem nie przekracza 50%.  "
+    },
+    "Czyste powietrze" : {
+        "name": "Czyste powietrze",
+        "application_url": "https://www.gov.pl/web/gov/skorzystaj-z-programu-czyste-powietrze",
+        "info_url": "https://czystepowietrze.gov.pl/",
+        "description": "Kwota maksymalnej dotacji: – 25 000 zł – gdy przedsięwzięcie nie obejmuje mikroinstalacji fotowoltaicznej – 30 000 zł – dla przedsięwzięcia z mikroinstalacją fotowoltaiczną"
+    }
+}
