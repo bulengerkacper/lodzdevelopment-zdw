@@ -52,7 +52,6 @@ Rycerska
 Serdeczna
 Henryka%20Sienkiewicza
 Sieradzka
-gen.%20Władysława%20Sikorskiego
 Jana%20Skrzetuskiego
 Jana%20III%20Sobieskiego
 Sokoła
@@ -70,7 +69,6 @@ Wiklinowa
 Wilcza
 Wodna%20
 Wschodnia
-kardynała%20Stefana%20Wyszyńskiego
 Zachodnia
 Zagłoby
 Zakopiańska
