@@ -5,8 +5,7 @@ def do_calc(data):
 
     with open('data/config_data.json') as new:
         config = json.load(new)
-    print(data)
-    print("-----------")
+
     # prepare data for calculation
     period = float(data["period"].replace(",", "."))
     building_type = data["location"]["type"]
@@ -25,23 +24,26 @@ def do_calc(data):
 
     
 
-    # calculate referral value
+    # calculate referral value for coal heating, take ineffective boiler into account
     heat_ref = (heat * 100) / 60
     water_ref = (water * 100) / 60
+    res["coal"] = {0: calc(heat_ref, water_ref, "coal", 1, config, size)}
 
-    test = calc(heat, water, "gas", 1, config, size)   
-    ref = calc(heat_ref, water_ref, "coal", 1, config, size)   
 
     # calculate costs here
+    time = [0, 1, 2 ,5, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    
     for medium in data["mediums"]:
         calcs = {}
         
-        for period in range(0,22,2):
+        for period in time:
             result = calc(heat, water, medium, period, config, size) 
             if result != -1:
                 calcs[period] = result
         
         res[medium] = calcs
+
+    print(res)
     return pack_data_to_json(res, period)
 
 def calc(heat, water, medium, period, config, size):
@@ -83,7 +85,6 @@ def calc(heat, water, medium, period, config, size):
     
     result.append(result_installation)
     result.append(result_exploatation)
-
     return(result)
 
 
