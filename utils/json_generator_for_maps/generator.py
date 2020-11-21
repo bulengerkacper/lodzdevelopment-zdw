@@ -25,10 +25,11 @@ for street in network:
         continue
     for value in json_data:
         address_data=value["address"]
-        if 'town' in address_data.keys() and address_data["town"] != "Zduńska Wola" or \
+        if 'town' in address_data.keys() and address_data["town"] != "Zduńska%20Wola" or \
             'municipality' in address_data.keys() and address_data["municipality"] == "gmina Szadek" or \
             "Szadek" in value["display_name"] or \
             'town' in address_data.keys() and address_data["town"] == "Szadek" :
+            print(address_data["municipality"])
             break
         #print(address_data["town"])
         if previous_entrance != address_data["road"]:
