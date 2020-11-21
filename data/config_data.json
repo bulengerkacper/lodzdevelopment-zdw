@@ -1,14 +1,14 @@
 {
     "building_type": {
-        "1" : "180",
-        "2" : "140",
-        "3" : "90",
-        "4" : "70",
-        "5" : "45"
+        "1": "180",
+        "2": "140",
+        "3": "90",
+        "4": "70",
+        "5": "45"
     },
     "water_consumption" : "50",
     "heating_type": {
-        "gas" : {
+        "gas": {
             "installation": {
                 "outside": "7000",
                 "materials": "160",
@@ -20,15 +20,42 @@
             "price": "2",
             "heating_value": "10.29"
         },
-        "electricity" : {
+        "gas_tank": {
+            "installation": {
+                "outside": "7500",
+                "materials": "500",
+                "inside_100": "12000",
+                "inside_200": "17000",
+                "inside_200+": "20000",
+                "boiler": "6000"
+            },
+            "price": "6.49",
+            "heating_value": "25.6"
+        },
+        "electricity": {
             "installation": {
                 "inside_100": "10000",
                 "inside_200": "12000",
                 "inside_200+": "15500",
-                "boiler": "6000"
+                "boiler": "7000"
             },
             "price": "0.437",
             "heating_value": "1"
+        },
+        "network_heat": {
+            "installation": {
+                "inside": "15000"
+            },
+            "price": "0.129",
+            "heating_value": "1"
+        },
+        "biomass": { 
+            "installation": {
+                "inside": "16000"
+            },
+            "price":"0.9",
+            "heating_value": "4.3"
+
         }
     }
 }

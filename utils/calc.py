@@ -9,18 +9,29 @@ def test():
     with open('data/config_data.json') as new:
         config = json.load(new)
 
+    # prepare data for calculation
     period = float(data["period"].replace(",", "."))
-    input_type = data["location"]["type"]
-    heat = float(config["building_type"][input_type].replace(",", ".")) * float(data["location"]["area"].replace(",", "."))
+    building_type = data["location"]["type"]
+    area = float(data["location"]["area"].replace(",", "."))
+    size = 0
+
+    if area < 100:
+        size = 1
+    elif area >= 100 and area < 200:
+        size = 2
+    else:
+        size = 3
+
+    heat = float(config["building_type"][building_type].replace(",", ".")) * area
     water = 365 * float(config["water_consumption"].replace(",", ".")) * float(data["location"]["users"].replace(",", "."))
-    
-    res["gas"]         = calc(heat, "gas", period, config, water)
-    res["electricity"] = calc(heat, "electricity", period, config, water)
 
-    return pack_data(res, period)
-    # return "test"
+    # calculate costs here
+    for medium in data["mediums"]:
+        res[medium] = calc(heat, water, medium, period, config, size) 
 
-def calc(heat, medium, period, config, water):
+    return pack_data_to_json(res, period)
+
+def calc(heat, water, medium, period, config, size):
     result               = []
     
     # TODO: sprawnosc kotla ???!!!
@@ -38,17 +49,29 @@ def calc(heat, medium, period, config, water):
     result_exploatation = (heating_cost + water_cost) * period
 
     # installation cost
-    for x in config["heating_type"][medium]["installation"]:
+    try:
+        for x in config["heating_type"][medium]["installation"]:
+ 
+            if x == "inside_100" and size != 1:
+                continue
+            if x == "inside_200" and size != 2:
+                continue
+            if x == "inside_200+" and size != 3:
+                continue
+            
             result_installation += float(config["heating_type"][medium]["installation"][x].replace(",", ".")) #TODO: refactor
     
-
+    except Exception as e:
+        print("ERROR: Wrong config for medium: " + str(medium) + "  field: " + str(x) + "  errmsg: " + str(e))
+        result_installation = 0
+    
     result.append(result_installation)
     result.append(result_exploatation)
 
     return(result)
 
 
-def pack_data(results, period):
+def pack_data_to_json(results, period):
     data = {}
     for x in results:
         data[x] = {
