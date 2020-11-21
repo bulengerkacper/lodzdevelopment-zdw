@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSG Test</title>
+    <meta title="Wymień piec w Zduńskiej Woli w czterech krokach">
     <script src="../static/js/scripts.js"></script>
     <script src="../static/js/leaflet.js"></script>
     <script src="../static/js/bootstrap.bundle.min.js"></script>
@@ -29,13 +29,17 @@
                     <h6 class="text-center text-secondary">w czterech krokach</h6>
                 </div>
 
-                <h6 class="text-center mt-5 text-dark">1. Wybierz ulicę</h6>
-                <h6 class="text-center mt-3 text-dark">↓</h6>
-                <h6 class="text-center mt-3 text-dark">2. Wypełnij ankietę</h6>
-                <h6 class="text-center mt-3 text-dark">↓</h6>
-                <h6 class="text-center mt-3 text-dark">3. Zobacz, ile oszczędzisz</h6>
-                <h6 class="text-center mt-3 text-dark">↓</h6>
-                <h6 class="text-center mt-3 text-dark">4. Dofinansuj wymianę</h6>
+                <div class="d-flex w-100">
+                    <div class="my-auto mx-auto">
+                        <h6 class="step-label text-center text-dark text-secondary" id="step-1-label">1. Wybierz ulicę</h6>
+                        <h6 class="step-label text-center text-dark">↓</h6>
+                        <h6 class="step-label text-center text-dark" id="step-2-label">2. Wypełnij ankietę</h6>
+                        <h6 class="step-label text-center text-dark">↓</h6>
+                        <h6 class="step-label text-center text-dark" id="step-3-label">3. Zobacz, ile oszczędzisz</h6>
+                        <h6 class="step-label text-center text-dark">↓</h6>
+                        <h6 class="step-label text-center text-dark" id="step-4-label">4. Dofinansuj wymianę</h6>
+                    </div>
+                </div>
             </nav>
             <!-- Page Content -->
             <div id="content">
@@ -72,7 +76,7 @@
                                 id="chooseStreetInput" oninput="chooseStreetBtnDisableHandler()">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary disabled" type="button" id="chooseStreetBtn" disabled
-                                    onclick="nextPage()">Wybierz</button>
+                                    onclick="nextStep()">Wybierz</button>
                             </div>
                         </div>
                     </div>
@@ -81,10 +85,10 @@
             <section>
                 <div class="inner h-100 w-100 d-flex">
                     <form class="my-auto w-100">
-                        <div class="row container mx-auto d-flex justify-content-md-center">
+                        <!-- <div class="row container mx-auto d-flex justify-content-center">
                             <div class="col-9 bg-white my-2 p-5 rounded">
                                 <h5 class="mb-4">Jak duży jest budynek?</h5>
-                                <div class="row container mx-auto justify-content-md-center">
+                                <div class="row container mx-auto justify-content-center">
                                     <div class="col-4 card-container">
                                         <label class="card align-items-center">
                                             <p>
@@ -117,10 +121,24 @@
                                     </div>
                                 </div>
                             </div>
+                        </div> -->
+
+                        
+                        <div class="row container mx-auto justify-content-center form-part">
+                            <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
+                                <h5 class="mb-3">Jak duży jest budynek?</h5>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Metraż"
+                                        id="buildingSize" onchange="handleBuildingSizeChange(this)">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">m<sup>2</sup></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="row container mx-auto justify-content-md-center">
-                            <div class="form-group col-9 bg-white my-2 p-5 rounded">
+                        <div class="row container mx-auto justify-content-center form-part">
+                            <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
                                 <h5 class="mb-3">Jaki jest poziom energooszczędności budynku?</h5>
                                 <label for="energySavingLevelRange" class="float-left">↓ bardzo niski</label>
                                 <label for="energySavingLevelRange" class="float-right">bardzo wysoki ↓</label>
@@ -130,8 +148,8 @@
                             </div>
                         </div>
 
-                        <div class="row container mx-auto justify-content-md-center">
-                            <div class="form-group col-9 bg-white my-2 p-5 rounded">
+                        <div class="row container mx-auto justify-content-center form-part">
+                            <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
                                 <h5 class="mb-3">Ile osób mieszka w budynku?</h5>
                                 <label for="peopleRange" class="float-left">↓ 1</label>
                                 <label for="peopleRange" class="float-right">10 ↓</label>
@@ -139,10 +157,10 @@
                                 <label for="" class="text-center w-100">4</label>
                             </div>
                         </div>
-                        <div class="row container mx-auto justify-content-md-center">
+                        <div class="row container mx-auto justify-content-center">
                             <div class="col-9">
-                                <div class="float-right">
-                                    <button type="button" class="btn btn-secondary rounded" onclick="docSlider.nextPage()">Dalej</button>
+                                <div class="float-right mb-3">
+                                    <button type="button" id="stepTwoContinueBtn" class="btn btn-secondary rounded" onclick="nextStep()" disabled>Dalej</button>
                                 </div>
                             </div>
                         </div>
