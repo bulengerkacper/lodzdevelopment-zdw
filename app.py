@@ -12,6 +12,10 @@ def main():
 def home():
     return calc.test()
 
+@application.route('/form', methods=['GET', 'POST'])  
+def form_collector():
+    return "nothing to discuss"
+
 if __name__ == "__main__":
     application.config['TEMPLATES_AUTO_RELOAD'] = True
     application.run(debug=True, host='127.0.0.1')

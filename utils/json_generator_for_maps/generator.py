@@ -16,24 +16,23 @@ for street in network:
     preparedlink = preparedlink.replace('\n','')
     r = requests.get(preparedlink)
     json_data = json.loads(r.text)
-    f = open(filename +".json","a", encoding="utf8")
+    json_bufer = open(filename +".jsons","a", encoding="utf8")
     for value in json_data:
         address_data=value["address"]
-        f.write(address_data["road"])
-        f.write("\n")
-        #f.write(value["svg"]) //cala wartosc ml
+        print("{'road':'" + address_data["road"] + "','points':[")
+        json_bufer.write("{'road':'" + address_data["road"] + "','points':[")
         splitted = value["svg"].split("L ",1)
-        #f.write(splitted[1]) #tu printuje cala zawartosc bez l
         splitSecondSpace=splitted[1].split(" ")
         result = [splitSecondSpace[index] + ' ' + splitSecondSpace[index+1] for index in range(len(splitSecondSpace)-1)]
         i=0
         for pair in result:
             i=i+1
             if i%2==1:
-                print (pair) #tu printuje pary
-                f.write(pair)
-                f.write("\n")
-        f.write("\n")
-    f.close()
-
+                print ("'" + pair + "',") #tu printuje pary
+                json_bufer.write("'" + pair + "',")
+        print("]")
+        json_bufer.write("]")
+    print("}")
+    json_bufer.write("}\n")
+    json_bufer.close()
 
