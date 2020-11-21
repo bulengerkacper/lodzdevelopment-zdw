@@ -22,8 +22,6 @@ def do_calc(data):
     heat = float(config["building_type"][building_type].replace(",", ".")) * area
     water = 365 * float(config["water_consumption"].replace(",", ".")) * float(data["location"]["users"].replace(",", "."))
 
-    
-
     # calculate referral value for coal heating, take ineffective boiler into account
     heat_ref = (heat * 100) / 60
     water_ref = (water * 100) / 60
@@ -40,10 +38,7 @@ def do_calc(data):
             result = calc(heat, water, medium, period, config, size) 
             if result != -1:
                 calcs[period] = result
-        
         res[medium] = calcs
-
-    print(res)
     return pack_data_to_json(res, period)
 
 def calc(heat, water, medium, period, config, size):
