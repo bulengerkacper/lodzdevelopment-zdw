@@ -32,7 +32,11 @@ def heat_network():
     file = open("utils/json_generator_for_maps/siec_cieplownicza.txt.jsons")  
     return file.read()
 
-    
+@application.route('/financing')
+def financing():
+    with open('data/financing.json') as src:
+        data = json.load(src)
+    return data 
 
 @application.route('/form', methods=['GET', 'POST'])  
 def form_collector():
