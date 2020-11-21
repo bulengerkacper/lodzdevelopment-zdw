@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+
 print ("Podaj nazwe pliku")
 filename = input()
 with open(filename, encoding="utf8") as f:
@@ -11,8 +12,6 @@ for line in lines:
     network.append(line)
 
 for street in network:
-    
-    #preparedlink = "https://nominatim.openstreetmap.org/search/"+street+"%20Zdu%C5%84ska%20Wola?format=json&addressdetails=1&limit=1&polygon_svg=1"
     preparedlink = "https://nominatim.openstreetmap.org/search/?format=json&addressdetails=1&limit=1&polygon_svg=1&street="+street+"&city=Zdu%C5%84ska%20Wola"
     preparedlink = preparedlink.replace('\n','')
     r = requests.get(preparedlink)
@@ -25,6 +24,10 @@ for street in network:
         #f.write(value["svg"]) //cala wartosc ml
         splitted = value["svg"].split("L ",1)
         f.write(splitted[1])
+        splitSecondSpace=splitted[1].split(" ")
+        result = [splitSecondSpace[index] + ' ' + splitSecondSpace[index+1] for index in range(len(splitSecondSpace)-1)]
+        print (result)
+        
         f.write("\n")
     f.close()
 
