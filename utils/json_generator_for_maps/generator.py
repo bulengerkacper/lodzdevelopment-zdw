@@ -27,13 +27,21 @@ for street in network:
         splitSecondSpace=splitted[1].split(" ")
         result = [splitSecondSpace[index] + ' ' + splitSecondSpace[index+1] for index in range(len(splitSecondSpace)-1)]
         i=0
+        print("'" + splitted[0][2::][:-1] + "',")
+        json_bufer.write("'" + splitted[0][2::][:-1] + "',")
         for pair in result:
             i=i+1
             if i%2==1:
+                print ("'" + pair + "',") #tu printuje pary
                 json_bufer.write("'" + pair + "',")   
-        json_bufer.write("],'lparam':'" +(splitted[0][2::][:-1]) + "'")
+        print("]")
+        json_bufer.write("]")
         print("},")
         json_bufer.write("},\n")
+print("]")
 json_bufer.write("]")
 json_bufer.close()
+
+#        json_bufer.write("],'lparam':'" +(splitted[0][2::][:-1]) + "'")
+
 
