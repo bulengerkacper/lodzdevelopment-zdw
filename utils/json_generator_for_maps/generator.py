@@ -49,3 +49,11 @@ for street in network:
 json_bufer.write("]")
 json_bufer.close()
 
+with open(filename +".jsons", "rt", encoding="utf8") as fin:
+    with open(filename+".json", "wt", encoding="utf8") as fout:
+        for line in fin:
+            print(line)
+            line=line.replace("'", '"')
+            line=line.replace(",]","]")
+            fout.write(line)
+
