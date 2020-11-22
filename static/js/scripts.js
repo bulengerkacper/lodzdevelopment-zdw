@@ -18,7 +18,6 @@ function chooseStreetBtnDisableHandler() {
 }
 
 function disableChoosing(flag) {
-  // console.log('disableChoosing(flag)', flag, $("#chooseStreetInput").val(), $("#chooseStreetInput").val().length);
   $("#chooseStreetBtn").prop('disabled', flag);
   !flag ? $("#chooseStreetBtn").removeClass('disabled') : $("#chooseStreetBtn").addClass('disabled');
 };
@@ -44,19 +43,14 @@ function initMap() {
     url: '/heat_network',
     success: function (result) {
       heat = JSON.parse(result);
-      console.log(result);
       JSON.parse(result).forEach(lineCoordinates => {
-        console.log(lineCoordinates);
         lineCoordinates.points = lineCoordinates.points.sort();
         let points = lineCoordinates.points.map(p => {
           return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
         });
-        console.log(points);
 
         let newLine = new L.Polyline(points, { color: 'red', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
         newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-        console.log(newLine);
-        // newLine
         lines.push(newLine);
       });
     },
@@ -69,19 +63,14 @@ function initMap() {
     url: '/gas_network',
     success: function (result) {
       gas = JSON.parse(result);
-      console.log(result);
       JSON.parse(result).forEach(lineCoordinates => {
-        console.log(lineCoordinates);
         lineCoordinates.points = lineCoordinates.points.sort();
         let points = lineCoordinates.points.map(p => {
           return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
         });
-        console.log(points);
 
         let newLine = new L.Polyline(points, { color: 'blue', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
         newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-        console.log(newLine);
-        // newLine
         lines.push(newLine);
       });
     },
@@ -111,9 +100,7 @@ function handlePeopleRangeChange(range) {
 }
 
 function handleBuildingSizeChange(input) {
-  console.log('handleBuildingSizeChange', input, $(input).val());
   if (isNumeric($(input).val())) {
-    console.log('dut git')
     $(input).removeClass('is-invalid');
     data.buildingSize = $(input).val();
   } else {
@@ -125,7 +112,6 @@ function handleBuildingSizeChange(input) {
 }
 
 function checkStepTwoButtonStatus() {
-  console.log('checkStepTwoButtonStatus')
   let disabled = false;
   disabled = disabled || data.buildingSize == null;
 
@@ -133,7 +119,6 @@ function checkStepTwoButtonStatus() {
 }
 
 function isNumeric(str) {
-  console.log('isNumeric', typeof str == "string" ? (!isNaN(str) && !isNaN(parseFloat(str))) : false);
   return typeof str == "string" ? (!isNaN(str) && !isNaN(parseFloat(str))) : false;
 }
 
@@ -184,7 +169,6 @@ function getFinancing() {
     contentType: 'application/json;charset=utf-8',
     url: '/financing',
     success: function (result) {
-      console.log(result);
       JSON.parse(result).forEach(e => {
         printFinancingCard(e);
       })
@@ -221,7 +205,6 @@ function getFormalisedData() {
 }
 
 function loadChart(data) {
-  console.log(data);
   chartData = data;
 
   google.charts.load('current', { packages: ['corechart', 'table'] });
