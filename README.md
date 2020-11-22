@@ -1,4 +1,4 @@
-# Project Name
+# Zdunska Wola - Energetyczna Transformacja
 
 The project is aimed to provide a simple and easy to use tool which will show the benefits of changing old heating system to the modern one. It calculates the costs of the modernization based on the provided input. 
 
