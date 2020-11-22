@@ -9,6 +9,7 @@ The project is aimed to provide a simple and easy to use tool which will show th
 
 ## Requirements
 
++ [Python 3](https://www.python.org/)
 + [Flask](https://flask.palletsprojects.com/en/1.1.x/)
 
 
