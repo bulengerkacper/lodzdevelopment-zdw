@@ -57,8 +57,12 @@
             "heating_value": "4.3"
         },
         "coal": {
+            "installation": {
+                "inside": "0"
+            },
             "price" : "0.9",
             "heating_value" : "6.2"
         }
+        
     }
 }

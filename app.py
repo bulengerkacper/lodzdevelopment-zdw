@@ -23,19 +23,18 @@ def calculate():
 
 @application.route('/gas_network')
 def gas_network():
-    file = open("utils/json_generator_for_maps/siec_gazowa.txt.jsons")  
+    file = open("utils/json_generator_for_maps/siec_gazowa.txt.jsons", 'r', encoding='utf-8')  
     return str(file.read())
 
 @application.route('/heat_network')
 def heat_network():
-    file = open("utils/json_generator_for_maps/siec_cieplownicza.txt.jsons")  
+    file = open("utils/json_generator_for_maps/siec_cieplownicza.txt.jsons", 'r', encoding='utf-8')  
     return str(file.read())
 
 @application.route('/financing')
 def financing():
-    with open('data/financing.json') as src:
-        data = json.load(src)
-    return str(data) 
+    with open('data/financing.json', 'r', encoding='utf-8') as src:
+        return str(src.read())
 
 @application.route('/form', methods=['GET', 'POST'])  
 def form_collector():
