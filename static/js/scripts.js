@@ -1,44 +1,16 @@
-// left: 37, up: 38, right: 39, down: 40,
-// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+var chartData, gas, heat
 
-function preventDefault(e) {
-  e.preventDefault();
+var data = {
+  street: '',
+  isGasAvailable: false,
+  isHeatAvailable: false,
+  buildingSize: null,
+  buildingEnergySavingLevel: '1',
+  buildingResidents: '4'
 }
 
-function preventDefaultForScrollKeys(e) {
-  if (keys[e.keyCode]) {
-    preventDefault(e);
-    return false;
-  }
-}
-
-// modern Chrome requires { passive: false } when adding event
-var supportsPassive = false;
-try {
-  window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-    get: function () { supportsPassive = true; }
-  }));
-} catch (e) { }
-
-var wheelOpt = supportsPassive ? { passive: false } : false;
-var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-// call this to Disable
-function disableScroll() {
-  console.warn('dada');
-  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
-// call this to Enable
-function enableScroll() {
-  window.removeEventListener('DOMMouseScroll', preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-  window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+var meta = {
+  step: 1,
 }
 
 function chooseStreetBtnDisableHandler() {
@@ -49,9 +21,7 @@ function disableChoosing(flag) {
   // console.log('disableChoosing(flag)', flag, $("#chooseStreetInput").val(), $("#chooseStreetInput").val().length);
   $("#chooseStreetBtn").prop('disabled', flag);
   !flag ? $("#chooseStreetBtn").removeClass('disabled') : $("#chooseStreetBtn").addClass('disabled');
-}
-
-var gas, heat;
+};
 
 function initMap() {
   var map = L.map('map').setView([51.593790, 18.949978], 14);
@@ -67,87 +37,56 @@ function initMap() {
     zoomOffset: -1
   }).addTo(map);
 
-  
+
   $.ajax({
     type: 'GET',
     contentType: 'application/json;charset=utf-8',
     url: '/heat_network',
-    success: function(result) { 
+    success: function (result) {
       heat = JSON.parse(result);
       console.log(result);
       JSON.parse(result).forEach(lineCoordinates => {
-          console.log(lineCoordinates);
-          lineCoordinates.points = lineCoordinates.points.sort();
-          let points = lineCoordinates.points.map(p => {
-            return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
-          });
-          console.log(points);
-      
-          let newLine = new L.Polyline(points, { color: 'red', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
-          newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-          console.log(newLine);
-          // newLine
-          lines.push(newLine);
+        console.log(lineCoordinates);
+        lineCoordinates.points = lineCoordinates.points.sort();
+        let points = lineCoordinates.points.map(p => {
+          return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
         });
+        console.log(points);
+
+        let newLine = new L.Polyline(points, { color: 'red', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
+        newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
+        console.log(newLine);
+        // newLine
+        lines.push(newLine);
+      });
     },
-    error: function(error) { console.error(error) }
+    error: function (error) { console.error(error) }
   });
 
   $.ajax({
     type: 'GET',
     contentType: 'application/json;charset=utf-8',
     url: '/gas_network',
-    success: function(result) { 
+    success: function (result) {
       gas = JSON.parse(result);
       console.log(result);
       JSON.parse(result).forEach(lineCoordinates => {
-          console.log(lineCoordinates);
-          lineCoordinates.points = lineCoordinates.points.sort();
-          let points = lineCoordinates.points.map(p => {
-            return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
-          });
-          console.log(points);
-      
-          let newLine = new L.Polyline(points, { color: 'blue', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
-          newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-          console.log(newLine);
-          // newLine
-          lines.push(newLine);
+        console.log(lineCoordinates);
+        lineCoordinates.points = lineCoordinates.points.sort();
+        let points = lineCoordinates.points.map(p => {
+          return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
         });
+        console.log(points);
+
+        let newLine = new L.Polyline(points, { color: 'blue', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
+        newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
+        console.log(newLine);
+        // newLine
+        lines.push(newLine);
+      });
     },
-    error: function(error) { console.error(error) }
+    error: function (error) { console.error(error) }
   });
-
-  // heat.forEach(lineCoordinates => {
-  //   console.log(lineCoordinates);
-  //   lineCoordinates.points = lineCoordinates.points.sort();
-  //   let points = lineCoordinates.points.map(p => {
-  //     return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
-  //   });
-  //   console.log(points);
-
-  //   let newLine = new L.Polyline(points, { color: 'red', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
-  //   newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-  //   console.log(newLine);
-  //   // newLine
-  //   lines.push(newLine);
-  // });
-
-  // gas.sort();
-  // gas.forEach(lineCoordinates => {
-  //   console.log(lineCoordinates);
-  //   lineCoordinates.points = lineCoordinates.points.sort();
-  //   let points = lineCoordinates.points.map(p => {
-  //     return new L.LatLng(parseFloat(p.split(' ')[1] * (-1)), parseFloat(p.split(' ')[0]));
-  //   });
-  //   console.log(points);
-
-  //   let newLine = new L.Polyline(points, { color: 'blue', weight: 5, smoothFactor: 0, opacity: .3 }).addTo(map);
-  //   newLine.on('click', () => { chooseStreet(lineCoordinates.road) });
-  //   console.log(newLine);
-  //   // newLine
-  //   lines.push(newLine);
-  // });
 }
 
 function chooseStreet(street) {
@@ -226,45 +165,45 @@ function previousStep() {
   docSlider.prevPage();
 }
 
-function getResults () {
+function getResults() {
   $.ajax({
     type: 'POST',
     contentType: 'application/json',
     url: '/calc',
     dataType: 'json',
     data: JSON.stringify(getFormalisedData()),
-    success: function(result) { loadChart(result); },
-    error: function(error) { console.error(error) }
+    success: function (result) { loadChart(result); },
+    error: function (error) { console.error(error) }
   });
 }
 
 function getFinancing() {
-  
+
   $.ajax({
     type: 'GET',
     contentType: 'application/json;charset=utf-8',
     url: '/financing',
-    success: function(result) { 
+    success: function (result) {
       console.log(result);
       JSON.parse(result).forEach(e => {
         printFinancingCard(e);
       })
     },
-    error: function(error) { console.error(error) }
+    error: function (error) { console.error(error) }
   });
 }
 
 function printFinancingCard(cardData) {
-  $('<div class="col-6 card-container"> <label class="card p-3"> <p> <p class="w-25 h-25 text-center mx-auto d-flex"> <img class="h-100 my-auto mx-auto" src="../static/images/cash.svg" /> </p> <h5 class="text-center">' + cardData.name +  '</h5> <span class="text-justify">' + cardData.description + '</span></p> <a href="' + cardData.info_url + '" class="btn btn-primary rounded float-left">Dowiedz się więcej</a> <a href="' + cardData.application_url + '" class="btn btn-secondary rounded float-right mt-2">Złóż wniosek</a> </label> </div>').appendTo('#financingContainer');
+  $('<div class="col-6 card-container"> <label class="card p-3"> <p> <p class="w-25 h-25 text-center mx-auto d-flex"> <img class="h-100 my-auto mx-auto" src="../static/images/cash.svg" /> </p> <h5 class="text-center">' + cardData.name + '</h5> <span class="text-justify">' + cardData.description + '</span></p> <a href="' + cardData.info_url + '" class="btn btn-primary rounded float-left">Dowiedz się więcej</a> <a href="' + cardData.application_url + '" class="btn btn-secondary rounded float-right mt-2">Złóż wniosek</a> </label> </div>').appendTo('#financingContainer');
 }
 
 function getFormalisedData() {
   let result = {
     "location": {
-        "adress": data.street,
-        "area": data.buildingSize,
-        "type": data.buildingEnergySavingLevel,
-        "users": data.buildingResidents
+      "adress": data.street,
+      "area": data.buildingSize,
+      "type": data.buildingEnergySavingLevel,
+      "users": data.buildingResidents
     },
     "mediums": ["electricity", "gas_tank", "biomass"],
     "period": "1"
@@ -273,7 +212,7 @@ function getFormalisedData() {
   if (data.isGasAvailable) {
     result.mediums.push("gas");
   }
-  
+
   if (data.isHeatAvailable) {
     result.mediums.push("network_heat");
   }
@@ -285,7 +224,7 @@ function loadChart(data) {
   console.log(data);
   chartData = data;
 
-  google.charts.load('current', {packages: ['corechart', 'table']});
+  google.charts.load('current', { packages: ['corechart', 'table'] });
   google.charts.setOnLoadCallback(drawChart);
   google.charts.setOnLoadCallback(drawTable);
 }
@@ -318,10 +257,10 @@ function drawChart() {
     title: 'Koszt instalacji w przeciagu 20 lat',
     curveType: 'function',
     legend: { position: 'right' },
-    vAxis: {title: "Koszt instalacji po upływie x lat"},
-    hAxis: {title: "Lata"},
+    vAxis: { title: "Koszt instalacji po upływie x lat" },
+    hAxis: { title: "Lata" },
   };
-  
+
   let chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 
   chart.draw(d, options);
@@ -337,24 +276,24 @@ function drawTable() {
   d.addColumn('string', '20 lat [zł]');
   if (data.isGasAvailable) {
     d.addRows([
-      ['Gaz z sieci', chartData['gas'] ? chartData['gas'][0][0].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][1].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][5].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][10].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][20].total.toFixed(2).toString() :'0.00']
+      ['Gaz z sieci', chartData['gas'] ? chartData['gas'][0][0].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][1].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][5].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][10].total.toFixed(2).toString() : '0.00', chartData['gas'] ? chartData['gas'][0][20].total.toFixed(2).toString() : '0.00']
     ]);
   }
   if (data.isHeatAvailable) {
     d.addRows([
-      ['Ciepło miejskie', chartData['network_heat'] ? chartData['network_heat'][0][0].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][1].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][5].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][10].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][20].total.toFixed(2).toString() :'0.00']
+      ['Ciepło miejskie', chartData['network_heat'] ? chartData['network_heat'][0][0].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][1].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][5].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][10].total.toFixed(2).toString() : '0.00', chartData['network_heat'] ? chartData['network_heat'][0][20].total.toFixed(2).toString() : '0.00']
     ]);
   }
   d.addRows([
-    ['Gaz', chartData['gas_tank'] ? chartData['gas_tank'][0][0].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][1].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][5].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][10].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][20].total.toFixed(2).toString() :'0.00'],
-    ['Elektryczność', chartData['electricity'] ? chartData['electricity'][0][0].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][1].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][5].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][10].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][20].total.toFixed(2).toString() :'0.00'],
-    ['Biomasa', chartData['biomass'] ? chartData['biomass'][0][0].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][1].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][5].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][10].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][20].total.toFixed(2).toString() :'0.00'],
-    ['Węgiel', '0.00', chartData['coal'] ? chartData['coal'][0][0].total.toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 5).toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 10).toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 20).toFixed(2).toString() :'0.00']
+    ['Gaz', chartData['gas_tank'] ? chartData['gas_tank'][0][0].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][1].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][5].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][10].total.toFixed(2).toString() : '0.00', chartData['gas_tank'] ? chartData['gas_tank'][0][20].total.toFixed(2).toString() : '0.00'],
+    ['Elektryczność', chartData['electricity'] ? chartData['electricity'][0][0].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][1].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][5].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][10].total.toFixed(2).toString() : '0.00', chartData['electricity'] ? chartData['electricity'][0][20].total.toFixed(2).toString() : '0.00'],
+    ['Biomasa', chartData['biomass'] ? chartData['biomass'][0][0].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][1].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][5].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][10].total.toFixed(2).toString() : '0.00', chartData['biomass'] ? chartData['biomass'][0][20].total.toFixed(2).toString() : '0.00'],
+    ['Węgiel', '0.00', chartData['coal'] ? chartData['coal'][0][0].total.toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 5).toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 10).toFixed(2).toString() : '0.00', chartData['coal'] ? (chartData['coal'][0][0].total * 20).toFixed(2).toString() : '0.00']
   ]);
-  
+
 
   let t = new google.visualization.Table(document.getElementById('data_table'));
-  t.draw(d, {showRowNumber: false, width: '100%', height: '100%'});
+  t.draw(d, { showRowNumber: false, width: '100%', height: '100%' });
 }
 
 function getDataForYear(yearsPassed) {
@@ -371,21 +310,6 @@ function getDataForYear(yearsPassed) {
   return result;
 }
 
-var chartData;
-
-var data = {
-  street: '',
-  isGasAvailable: false,
-  isHeatAvailable: false,
-  buildingSize: null,
-  buildingEnergySavingLevel: '1',
-  buildingResidents: '4'
-}
-
-var meta = {
-  step: 1,
-}
-
 var rangeValues = {
   'energySavingLevel': {
     1: 'bardzo niski',
@@ -394,4 +318,8 @@ var rangeValues = {
     4: 'wysoki',
     5: 'bardzo wysoki'
   }
+}
+
+function closePopup() {
+  $("#popup").remove();
 }

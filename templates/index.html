@@ -19,10 +19,8 @@
 </head>
 
 <body>
-    <!-- fixed content here -->
     <div id="ssg-container">
         <div class="wrapper">
-            <!-- Sidebar -->
             <nav id="sidebar" class="bg-primary">
                 <div class="sidebar-header mb-5">
                     <img class="mx-auto d-flex mt-5" src="../static/images/logo.png" />
@@ -43,24 +41,22 @@
                     </div>
                 </div>
             </nav>
-            <!-- Page Content -->
-            <div id="content">
-
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <div class="container-fluid">
-
-                        <!-- <button type="button" id="sidebarCollapse" class="btn btn-info">
-                            <i class="fas fa-align-left"></i>
-                            <span>Toggle Sidebar</span>
-                        </button> -->
-                    </div>
-                </nav>
-            </div>
         </div>
 
         <div class="docSlider">
             <section>
                 <div class="inner">
+                    <div id="popup">
+                        <div>
+                            <h3>Wybierz ulicę</h3>
+                            <p class="mt-4">Na mapie zaznaczyliśmy obecne instalacje gazowe oraz ciepłownicze w
+                                Zduńskiej Woli.</p>
+                            <p>Kliknij na mapie w instalację na swojej ulicy lub jeśli jej nie ma, wpisz nazwę w pole w
+                                dolnym prawym rogu.</p>
+                            <p class="text-center mt-5"><button type="button" class="btn btn-secondary"
+                                    onclick="closePopup()">OK</button></p>
+                        </div>
+                    </div>
                     <div id="map"></div>
                     <div id="mapLegend" class="bg-white">
                         <div class="row container">
@@ -103,6 +99,8 @@
                         <div class="row container mx-auto justify-content-center form-part">
                             <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
                                 <h5 class="mb-3">Jaki jest poziom energooszczędności budynku?</h5>
+                                <h6 class="mb-3"><a href="#" class="text-secondary">Sprawdź w jaki sposób to
+                                        określić</a></h6>
                                 <label for="energySavingLevelRange" class="float-left">↓ bardzo niski</label>
                                 <label for="energySavingLevelRange" class="float-right">bardzo wysoki ↓</label>
                                 <input type="range" class="form-control-range w-100" id="energySavingLevelRange" min="1"
@@ -163,12 +161,20 @@
                 </div>
             </section>
             <section>
-                    <div class="inner h-100 w-100 d-flex">
-                        <div class="row container mx-auto justify-content-center form-part my-auto w-100">
-                            <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
+                <div class="inner h-100 w-100 d-flex">
+                    <div class="row container mx-auto justify-content-center form-part my-auto w-100">
+                        <div class="form-group col-9 bg-white my-1 p-5 py-4 rounded">
                             <h4 class="mb-4 text-center">Dofinansuj wymianę!</h4>
                             <div class="row container mx-auto justify-content-center" id="financingContainer">
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row container mx-auto justify-content-center">
+                    <div class="col-9">
+                        <div class="float-left mb-3">
+                            <button type="button" id="stepTwoPrevBtn" class="btn btn-secondary rounded"
+                                onclick="previousStep()">Wstecz</button>
                         </div>
                     </div>
                 </div>
